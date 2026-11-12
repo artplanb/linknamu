@@ -9,7 +9,16 @@ function trackClick(id: string) {
   fetch(url, { method: "POST", keepalive: true }).catch(() => {});
 }
 
-export default function LinkCard({ id, title, url, description }: LinkItem) {
+type LinkCardProps = LinkItem & {
+  count: number;
+  onClicked?: (id: string) => void;
+};
+
+export default function LinkCard({ id, title, url, description, count, onClicked }: LinkCardProps) {
+  const handleTrack = () => {
+    trackClick(id);
+    onClicked?.(id);
+  };
   // mailto: 링크는 새 탭으로 열면 빈 탭이 남으므로 현재 창에서 메일 앱을 엽니다.
   const isMail = url.startsWith("mailto:");
   return (
@@ -17,11 +26,11 @@ export default function LinkCard({ id, title, url, description }: LinkItem) {
       href={url}
       target={isMail ? undefined : "_blank"}
       rel={isMail ? undefined : "noopener noreferrer"}
-      onClick={() => trackClick(id)}
+      onClick={handleTrack}
       onAuxClick={(e) => {
-        if (e.button === 1) trackClick(id); // 마우스 휠 클릭(새 탭 열기)
+        if (e.button === 1) handleTrack(); // 마우스 휠 클릭(새 탭 열기)
       }}
-      className="glass-card block w-full rounded-[1.25rem] px-6 py-[1.125rem] text-center transition duration-300 ease-out hover:bg-[var(--glass-hover)] hover:shadow-[var(--glass-shadow-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0"
+      className="glass-card relative block w-full rounded-[1.25rem] px-16 py-[1.125rem] text-center transition duration-300 ease-out hover:bg-[var(--glass-hover)] hover:shadow-[var(--glass-shadow-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0"
     >
       <span className="block text-[0.9375rem] font-semibold tracking-tight">{title}</span>
       {description && (
@@ -29,6 +38,13 @@ export default function LinkCard({ id, title, url, description }: LinkItem) {
           {description}
         </span>
       )}
+      {/* 제목이 가운데에 그대로 있도록 클릭 수는 오른쪽에 띄워서 배치 */}
+      <span
+        aria-label={`클릭 ${count.toLocaleString("ko-KR")}회`}
+        className="absolute top-1/2 right-5 -translate-y-1/2 text-xs font-medium text-muted tabular-nums"
+      >
+        {count.toLocaleString("ko-KR")}회
+      </span>
     </a>
   );
 }
