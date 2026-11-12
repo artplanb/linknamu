@@ -10,20 +10,22 @@ function trackClick(id: string) {
 }
 
 export default function LinkCard({ id, title, url, description }: LinkItem) {
+  // mailto: 링크는 새 탭으로 열면 빈 탭이 남으므로 현재 창에서 메일 앱을 엽니다.
+  const isMail = url.startsWith("mailto:");
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isMail ? undefined : "_blank"}
+      rel={isMail ? undefined : "noopener noreferrer"}
       onClick={() => trackClick(id)}
       onAuxClick={(e) => {
         if (e.button === 1) trackClick(id); // 마우스 휠 클릭(새 탭 열기)
       }}
-      className="group block w-full rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 active:translate-y-0 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-500"
+      className="glass-card block w-full rounded-[1.25rem] px-6 py-[1.125rem] text-center transition duration-300 ease-out hover:bg-[var(--glass-hover)] hover:shadow-[var(--glass-shadow-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0"
     >
-      <span className="block font-semibold">{title}</span>
+      <span className="block text-[0.9375rem] font-semibold tracking-tight">{title}</span>
       {description && (
-        <span className="mt-0.5 block text-sm text-neutral-500 dark:text-neutral-400">
+        <span className="mt-0.5 block text-sm text-muted">
           {description}
         </span>
       )}

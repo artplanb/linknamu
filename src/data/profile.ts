@@ -14,12 +14,12 @@ export type Profile = {
 
 // 보여 주기용 더미 값입니다. 실제 내용은 나중에 채워 넣으세요.
 export const profile: Profile = {
-  name: "김능력",
-  bio: "개발자 꿈나무",
-  image: "/profile.svg",
+  name: "김개발",
+  bio: "풀스택 개발자 | 요즘 AI 개발에 미쳐있다",
+  image: "/profile.jpg",
   links: [
-    { id: "github", title: "GitHub", url: "https://github.com" },
-    { id: "linkedin", title: "LinkedIn", url: "https://www.linkedin.com" },
-    { id: "blog", title: "Blog", url: "https://velog.io" },
+    { id: "github", title: "🐙 깃허브", url: "https://github.com/artplanb" },
+    { id: "blog", title: "🕐 블로그", url: "https://blog.naver.com/newein" },
+    { id: "email", title: "✉️ 이메일", url: "mailto:newein@gmail.com" },
   ],
 };
