@@ -1,0 +1,26 @@
+import type { Metadata, Viewport } from "next";
+import { Geist } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "링크나무",
+  description: "내 모든 링크를 한 페이지에 모아 하나의 URL로 공유하세요.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html lang="ko" className={`${geistSans.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
+  );
+}
